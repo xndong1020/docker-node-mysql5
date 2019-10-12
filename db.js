@@ -14,7 +14,7 @@ const {
 //   dialect: "mysql"
 // });
 
-const sequelize = new Sequelize(`${MYSQL_DB}`, `${MYSQL_USERNAME}`, `${MYSQL_PASSWORD}`, {
+const sequelize = new Sequelize(`${MYSQL_DB}`, `root`, `${MYSQL_PASSWORD}`, {
   host: "db",
   dialect: "mysql"
 });

@@ -33,10 +33,10 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
-      - MYSQL_USER=$MYSQL_USERNAME
-      - MYSQL_PASSWORD=$MYSQL_PASSWORD
-      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
-      - MYSQL_DB=$MYSQL_DB
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=pass
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_DB=mysql
     volumes:     
       - dbdata:/data/db
     networks:
