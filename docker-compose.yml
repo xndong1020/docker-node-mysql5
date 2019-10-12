@@ -26,7 +26,10 @@ services:
     command: ./wait-for.sh db:3306 -- /home/node/app/node_modules/.bin/nodemon app.js 
 
   db:
-    image: mysql:5.7.13
+    build:
+      context: .
+      dockerfile: Dockerfile-mysql
+    image: mysql:5.7.24
     ports: 
       - "3306:3306"
     container_name: db
@@ -38,6 +41,7 @@ services:
       - MYSQL_ROOT_PASSWORD=pass
       - MYSQL_DB=mysql
     volumes:     
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - dbdata:/data/db
     networks:
       - app-network  
