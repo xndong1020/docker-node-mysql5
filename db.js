@@ -7,9 +7,9 @@ const {
 } = process.env;
 
 // // Option 2: Passing a connection URI
-// const db = new Sequelize("db://nicole:pass@localhost:3306/nicole_app");
+// const db = new Sequelize("db://nicole:pass@localhost:3306/tedu");
 
-// const sequelize = new Sequelize("nicole_app", "root", "pass", {
+// const sequelize = new Sequelize("tedu", "root", "pass", {
 //   host: "db",
 //   dialect: "mysql"
 // });
@@ -22,7 +22,7 @@ const sequelize = new Sequelize(`${MYSQL_DB}`, `root`, `${MYSQL_PASSWORD}`, {
 sequelize
   .authenticate()
   .then(() => {
-    console.log("Connection has been established successfully111.");
+    console.log("Connection has been established successfully.");
   })
   .catch(err => {
     console.error("Unable to connect to the database:", err);
