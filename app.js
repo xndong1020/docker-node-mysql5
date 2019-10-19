@@ -16,8 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 // now you can start using db query
 // simple query
 db.query("SELECT * FROM `dept`", function(err, results, fields) {
-  console.log('err', results); // results contains rows returned by server
-  console.log('results', results); // results contains rows returned by server
+  if (err) console.log('err occurred', err); // print err if there is any
+  console.log('results from query', results); // results contains rows returned by server
 });
 
 
