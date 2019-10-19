@@ -9,7 +9,7 @@ services:
     container_name: nodejs
     restart: unless-stopped
     env_file: .env
-    environment:
+    environment: # 对应的就是 .env 文件里面的内容，要一一对应
       - MYSQL_USERNAME=$MYSQL_USERNAME
       - MYSQL_PASSWORD=$MYSQL_PASSWORD
       - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
@@ -18,7 +18,7 @@ services:
       - MYSQL_DB=$MYSQL_DB
     ports:
       - "80:8080"
-    volumes:
+    volumes: # 在哪个位置保存所有的变化
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
     networks:

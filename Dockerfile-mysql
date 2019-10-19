@@ -1,3 +1,4 @@
+# 去docker-hub拿一个docker mysql 版本为5.7.24 的image
 FROM mysql:5.7.24
 
 ADD init.sql /docker-entrypoint-initdb.d/init.sql
