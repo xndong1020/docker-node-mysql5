@@ -1,32 +1,38 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const router = express.Router();
-// const sequelize = require("./db");
-const db = require('./database');
+// 引入body-parser中间件
+const bodyParser=require('body-parser');
+const userRouter = require('./routes/user.js');
+const addRouter=require('./routes/add.js');
 
-// const path = __dirname + "/views/";
+// const db=require('./dbpool');
+
+// const path = path.join(__dirname, 'views');
+
 const port = process.env.PORT || 8080;
 
-// app.engine("html", require("ejs").renderFile);
-// app.set("view engine", "html");
-app.use(express.urlencoded({ extended: true }));
-// app.use(express.static(path));
 
 
-// now you can start using db query
-// simple query
-db.query("SELECT * FROM `dept`", function(err, results, fields) {
-  if (err) console.log('err occurred', err); // print err if there is any
-  console.log('results from query', results); // results contains rows returned by server
+app.use(express.static('public'));
+
+// app.engine('html', require('ejs').renderFile);
+// app.set('view engine', 'html');
+
+// 使用body-parser中间件，这样就能在提交表单的时候使用 req.body 拿到 数据
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/user', userRouter);
+app.use('/add', addRouter);
+
+// app.get('/add', function (req,res) {
+//   var obj=req.query;
+//   console.log('obj', req.query);
+//   res.send('Added successfully');
+// })
+
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
 });
 
 
-app.get("*", (req, res) =>
-  res.status(200).send({
-    message: "Welcome to the beginning of nothingness."
-  })
-);
 
-app.listen(port, function() {
-  console.log(`Example app listening on ${port}!`);
-});

@@ -18,7 +18,7 @@ then enter your password
 
 ```sql
 show databases; # list current databases
-create database tedu;
+create database xz;
 ```
 
 

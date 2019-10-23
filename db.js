@@ -19,6 +19,7 @@ const sequelize = new Sequelize(`${MYSQL_DB}`, `root`, `${MYSQL_PASSWORD}`, {
   dialect: "mysql"
 });
 
+
 sequelize
   .authenticate()
   .then(() => {

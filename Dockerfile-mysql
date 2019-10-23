@@ -1,9 +1,9 @@
 # 去docker-hub拿一个docker mysql 版本为5.7.24 的image
 FROM mysql:5.7.24
 
-# initialize a database 'tedu'
+# initialize a database 'xz'
 ENV MYSQL_ROOT_PASSWORD pass
-ENV MYSQL_DATABASE tedu
+ENV MYSQL_DATABASE xz
 
 COPY ./init.sql /docker-entrypoint-initdb.d/init.sql
 RUN chmod -R 775 /docker-entrypoint-initdb.d
