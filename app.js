@@ -3,9 +3,8 @@ const app = express();
 // 引入body-parser中间件
 const bodyParser=require('body-parser');
 const userRouter = require('./routes/user.js');
-const addRouter=require('./routes/add.js');
+// const addRouter=require('./routes/add.js');
 
-// const db=require('./dbpool');
 
 // const path = path.join(__dirname, 'views');
 
@@ -22,13 +21,8 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/user', userRouter);
-app.use('/add', addRouter);
 
-// app.get('/add', function (req,res) {
-//   var obj=req.query;
-//   console.log('obj', req.query);
-//   res.send('Added successfully');
-// })
+
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
