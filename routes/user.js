@@ -6,45 +6,48 @@ var router = express.Router();
 
 router.get('/test/:id', function(req, res, next) {
   const { id } = req.params
-  res.render('user_reg', { title: `Redirect from post method` });
+  res.render('user_details', { title: `您的用户Id是 ${id}` });
 });
 
-router.post('/redirect', (req, res) => {
-  // 使用POSTMAN，或者表单  向该路径/user/redirect发一个request, 会跳转到上面的/user/test/1 路径
-  res.redirect('/user/test/1'); 
+router.post('/reg', (req, res) => {
+  const obj = req.body;
+  
+  // 验证 uname不为空
+  if (!obj.uname) {
+    res.send({ code: 401, msg: 'uname required' });
+    // 报错： Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    // 因为多次使用了send
+    // 所以要加 return
+    return;
+  }
+  if (!obj.upwd) {
+    res.send({ code: 402, msg: 'upwd required' });
+    return;
+  }
+  if (!obj.phone) {
+    res.send({ code: 403, msg: 'phone required' });
+    return;
+  }
+  if (!obj.email) {
+    res.send({ code: 404, msg: 'email required' });
+    return;
+  }
+  pool.query('INSERT INTO xz_user SET ?', [obj], function(err, result) {
+    if (err) {
+      console.log('error has occurred', err)
+      throw err;
+    }
+    // console.log('result', result);
+    if (result.affectedRows > 0) {
+      // 获得刚刚生成的user id
+      const newUserId = pool.query('SELECT MAX(id) FROM xz_user');
+      res.redirect(`/user/test/${newUserId}`); 
+    }
+  });
 })
 
 router.get('/reg', function(req, res, next) {
-  
-  // const obj = req.body;
-  
-  // // 验证 uname不为空
-  // if (!obj.uname) {
-  //   res.send({ code: 401, msg: 'uname required' });
-  //   // 报错： Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-  //   // 因为多次使用了send
-  //   // 所以要加 return
-  //   return;
-  // }
-  // if (!obj.upwd) {
-  //   res.send({ code: 402, msg: 'upwd required' });
-  //   return;
-  // }
-  // if (!obj.phone) {
-  //   res.send({ code: 403, msg: 'phone required' });
-  //   return;
-  // }
-  // if (!obj.email) {
-  //   res.send({ code: 404, msg: 'email required' });
-  //   return;
-  // }
-  // pool.query('INSERT INTO xz_user SET ?', [obj], function(err, result) {
-  //   if (err) throw err;
-  //   // console.log('result', result);
-  //   if (result.affectedRows > 0) {
-  //     res.send({ code: 200, msg: 'register successfully' });
-  //   }
-  // });
+  // 给用户生成一个表单
   res.render('user_reg', { title: 'User register' });
 });
 
