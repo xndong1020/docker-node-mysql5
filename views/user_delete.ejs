@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+
+    <h2>User delete</h2>
+    <form action="/user/delete" method="POST">
+      User Id: <input type="text" name="uid" /> <br />
+      <br />
+      <input type="submit" />
+    </form>
+  </body>
+</html>

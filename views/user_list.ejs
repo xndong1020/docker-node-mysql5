@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+
+    <h2>User list in each page 分页查询</h2>
+    <form action="/user/list" method="POST">
+      Count: <input type="text" name="count" /> <br />
+      <br />
+      Page No.: <input type="text" name="pageNo" /> <br />
+      <br />
+      <input type="submit" />
+    </form>
+  </body>
+</html>
