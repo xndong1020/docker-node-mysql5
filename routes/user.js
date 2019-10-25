@@ -3,8 +3,20 @@ const pool = require('../dbpool');
 var router = express.Router();
 
 
+
+router.get('/test/:id', function(req, res, next) {
+  const { id } = req.params
+  res.render('user_reg', { title: `Redirect from post method` });
+});
+
+router.post('/redirect', (req, res) => {
+  // 使用POSTMAN，或者表单  向该路径/user/redirect发一个request, 会跳转到上面的/user/test/1 路径
+  res.redirect('/user/test/1'); 
+})
+
 router.get('/reg', function(req, res, next) {
-  console.log('qqqqqq')  // const obj = req.body;
+  
+  // const obj = req.body;
   
   // // 验证 uname不为空
   // if (!obj.uname) {
@@ -161,5 +173,7 @@ router.get('/reg', function(req, res, next) {
 //     }
 //   });
 // });
+
+
 
 module.exports = router;

@@ -12,10 +12,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 const port = process.env.PORT || 8080;
-// console.log(userRouter)
-app.use('/',function (req,res) {
-  console.log('reaef', req)
-})
 
 // app.use(express.static('public'));
 
