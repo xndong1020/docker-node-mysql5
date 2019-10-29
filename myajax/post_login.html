@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script>
+      function login() {
+        const $uname = uname.value;
+        const $upwd = upwd.value;
+        //   1. 创建async连接对象
+        const xhr = new XMLHttpRequest();
+        // 4. 绑定监听，接收相应数据
+        xhr.onreadystatechange = function() {
+          // onreadystatechange全程会调用4次
+          // 我们关注xhr.readyState==4
+          // 目的是，我们只要最后一次
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            const result = xhr.responseText;
+            alert(result);
+          }
+        };
+        //   2. 打开连接
+        xhr.open('post', '/demo/post_login', true);
+        const formdata = 'uname=' + $uname + '&upwd=' + $upwd;
+        //   由于要传递整个请求主体
+        //   而请求主体中有特殊字符，必须修改request header
+        // console.log(formdata);
+        xhr.setRequestHeader(
+          'Content-Type',
+          'application/x-www-form-urlencoded'
+        );
+        //   3. 发送连接
+        xhr.send(formdata);
+      }
+    </script>
+  </head>
+  <body>
+    <input type="text" id="uname" /> <br />
+    <input type="text" id="upwd" />
+    <button onclick="login()">login</button>
+  </body>
+</html>

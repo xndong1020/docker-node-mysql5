@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="getAjax()">First Ajax</button>
+    <script>
+        function getAjax(){
+            const xhr=new XMLHttpRequest();
+            console.log('aaa')
+            xhr.onreadystatechange=function(){
+                console.log('bbb',xhr.readyState)
+                if(xhr.readyState==4 && xhr.status==200){
+                    const result=xhr.responseText;
+                    alert(result);
+                }
+            }
+            xhr.open('get', '/demo/ajaxDemo', true);
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

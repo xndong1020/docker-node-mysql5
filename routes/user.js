@@ -145,7 +145,7 @@ router.get('/list', function (req, res, next) {
 
 router.post('/list', function(req, res) {
   const obj = req.body;
-  console.log(obj);
+  // console.log(obj);
   let { count, pageNo } = obj;
   if (!count) {
     count = 2;
