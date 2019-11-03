@@ -4,6 +4,7 @@ const path = require('path');
 // const bodyParser = require('body-parser');
 const userRouter = require('./routes/user.js');
 const demo=require('./routes/demo.js');
+const pro=require('./routes/pro.js')
 
 const app = express();
 
@@ -15,6 +16,7 @@ const port = process.env.PORT || 8080;
 
 // app.use(express.static('public'));
 app.use(express.static('myajax'));
+app.use(express.static('mypro'));
 
 app.use(express.json());
 // 使用body-parser中间件，这样就能在提交表单的时候使用 req.body 拿到 数据
@@ -24,6 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/user', userRouter);
 app.use('/demo', demo);
+app.use('/pro', pro)
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

@@ -5,7 +5,8 @@ var router = express.Router();
 // 1. 测试接口 myAjax
 router.get("/ajaxDemo", function (req, res) {
   res.send("my first ajax program")
-});// 2. get method 的登陆
+});
+// 2. get method 的登陆
 router.get("/get_login",(req, res)=>{
   const $uname=req.query.uname;
   const $upwd=req.query.upwd;
@@ -60,5 +61,13 @@ router.post("/post_login", (req, res)=>{
   })
 })
 
+// userlist， 查询所有用户
+router.get("/userlist", (req, res)=>{
+  const sql="select * from xz_user"
+  pool.query(sql, (err, result)=>{
+    if(err) throw err;
+    res.send(result);
+  })
+})
 
 module.exports = router;

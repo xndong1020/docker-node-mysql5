@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script>
+    function queryUser(){
+        // 获取地址栏中，传递过来的uid
+        // BOM---使用js操作浏览器对象
+        const urlParams=new URLSearchParams(location.search);
+        const _uid=urlParams.get("uid");
+        uid.value=_uid;
+        const xhr=new XMLHttpRequest()
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState==4 && xhr.status==200){
+                const result=xhr.responseText;
+                if(result==0){
+                    alert("Search failed")
+                    return;
+                }
+                // 添加下标直接获得JS对象
+                const user= JSON.parse(result)[0];
+                // 把数据放入各个文本框
+                uname.value=user.uname;
+                upwd.value=user.upwd;
+                email.value=user.email;
+                phone.value=user.value;
+                user_name.value=user.user_name;
+                // gender.value=user.gender;
+                if(user.gender=="1"){
+                    male.checked=true
+                }else if(user.gender=="0"){
+                    female.checked=true
+                }else{
+                    unknow.checked=true
+                }
+            }
+        }
+        xhr.open("get","/pro/v1/queryuser/"+_uid, true)
+        xhr.send()
+    }
+</script>
+<body onload="queryUser()">
+    <div>
+        <!-- uid 文本框变成只读，因为uid不允许修改 -->
+        <input type="text" id="uid" readonly> <br>
+        <input type="text" id="uname"> <br>
+        <input type="text" id="upwd"> <br>
+        <input type="text" id="email"> <br>
+        <input type="text" id="phone"> <br>
+        <input type="text" id="user_name"> <br>
+        <!-- <input type="text" id="gender"> <br> -->
+        <input type="radio" id="male" name="gender"><label for="Male">Male</label>
+        <input type="radio" id="Female" name="gender"><label for="Female">Female</label>
+        <input type="radio" id="unknow" name="gender"><label for="N/A">N/A</label>
+    </div>
+    <div>
+        <button>Modify</button>
+    </div>
+</body>
+</html>

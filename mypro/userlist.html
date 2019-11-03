@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script>
+      function showList() {
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            const result = xhr.responseText;
+            //json解析，填充到table中
+            const arr = JSON.parse(result);
+            let htmlstr = `
+                    <table border="1px">
+                        <tr>
+                            <th>login name</th>
+                            <th>email</th>
+                            <th>contact details</th>
+                            <th>user name</th>
+                            <th>gender</th>
+                            <th>comment</th>
+                        </tr>
+                    `;
+            for (let i = 0; i < arr.length; i++) {
+              htmlstr += `
+                        <tr>
+                            <td>${arr[i].uname}</td>
+                            <td>${arr[i].email}</td>
+                            <td>${arr[i].phone}</td>
+                            <td>${arr[i].user_name}</td>`;
+              let set = '';
+              if (arr[i].gender == 1) {
+                sex = 'Male';
+              } else if (arr[i].gender == 0) {
+                sex = 'Female';
+              } else {
+                sex = 'unknow';
+              }
+              htmlstr += `<td>${sex}</td>
+                            <td>
+                                <a href="queryUser.html?uid=${arr[i].uid}">Modify</a>
+                                <a href="javascript:deleteUser(${arr[i].uid})">Delete</a>
+                            </td>
+                        </tr>
+                        `;
+            }
+            htmlstr += `</table>`;
+            d1.innerHTML = htmlstr;
+          }
+        };
+        xhr.open('get', '/pro/v1/userlist', true);
+        xhr.send(null);
+      }
+      function deleteUser(_uid) {
+        // const _uid = uid.value;
+        const xhr = new XMLHttpRequest();
+        console.log('aaa');
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            const result = xhr.responseText;
+            if(result=="1"){
+              showList();
+            }else{
+              alert("Delete failed")
+            }
+          }
+        };
+        xhr.open('delete', '/pro/v1/deluser/' + _uid, true);
+        xhr.send();
+      }
+    </script>
+  </head>
+  <body onload="showList()">
+    <div id="d1"></div>
+  </body>
+</html>
