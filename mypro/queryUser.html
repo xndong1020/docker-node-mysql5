@@ -61,30 +61,32 @@
       const _phone = phone.value;
       const _email = email.value;
       const _user_name = user_name.value;
-      let _gender = null;
+      var _gender = null;
       if (male.checked) {
-        _gender = '1';
+        _gender = 1;
       } else {
-        _gender = '0';
+        _gender = 0;
       }
       // 2. ajax的xhr4步 --- put方法，有请求主体
       const xhr = new XMLHttpRequest();
-      console.log('1111');
       xhr.onreadystatechange = function() {
-        console.log('readyState', xhr.readyState);
         if (xhr.readyState == 4 && xhr.status == 200) {
-          console.log('222222');
           const result = xhr.responseText;
-          alert(result);
+          if (result == 1) {
+            alert('Modify succeed');
+            // 如果修改成功，自动跳回之前叶敏，并重新加载数据
+            // 使用BOM
+            location.href = 'http://localhost:80/userlist.html';
+          } else {
+            alert('Modify failed');
+          }
         }
-        xhr.open('put', '/pro/v1/updateuser', true);
-        const formdata = `uname=${_uname}&upwd=${_upwd}&email=${_email}&phone=${_phone}&user_name=${_user_name}&gender=${_gender}&uid=${_uid}`;
-        xhr.setRequestHeader(
-          'Content-Type',
-          'application/x-www-form-urlencoded'
-        );
-        xhr.send(formdata);
       };
+      xhr.open('put', '/pro/v1/updateuser', true);
+      const formdata = `uname=${_uname}&upwd=${_upwd}&email=${_email}&phone=${_phone}&user_name=${_user_name}&gender=${_gender}&uid=${_uid}`;
+      console.log(formdata);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.send(formdata);
     }
   </script>
   <body onload="queryUser()">
