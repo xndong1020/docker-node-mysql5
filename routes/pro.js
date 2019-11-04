@@ -53,4 +53,29 @@ router.get('/v1/queryuser/:uid', (req, res) => {
   });
 });
 
+// 修改用户信息的接口 put
+router.put('/v1/updateuser', (req, res) => {
+  // 1. 接收前端传过来的信息
+  const _uid = req.body.uid;
+  const _uname = req.body.uname;
+  const _upwd = req.body.upwd;
+  const _phone = req.body.phone;
+  const _email = req.body.email;
+  const _user_name = req.body.user_name;
+  const _gender = req.body.gender;
+  // 2. sql语句
+  const sql =
+    'UPDATE `xz_user` SET uname=?, upwd=?, email=?, phone=?, user_name=?, gender=? WHERE uid=?';
+  // 3. 连接池进行数据操作
+  pool.query(
+    sql,
+    [_uname, _upwd, _email, _phone, _user_name, _gender, _uid],
+    (err, result) => {
+      if (err) console.log('err', err);
+      console.log(result);
+      res.send('1');
+    }
+  );
+});
+
 module.exports = router;

@@ -1,64 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-</head>
-<script>
-    function queryUser(){
-        // 获取地址栏中，传递过来的uid
-        // BOM---使用js操作浏览器对象
-        const urlParams=new URLSearchParams(location.search);
-        const _uid=urlParams.get("uid");
-        uid.value=_uid;
-        const xhr=new XMLHttpRequest()
-        xhr.onreadystatechange=function(){
-            if(xhr.readyState==4 && xhr.status==200){
-                const result=xhr.responseText;
-                if(result==0){
-                    alert("Search failed")
-                    return;
-                }
-                // 添加下标直接获得JS对象
-                const user= JSON.parse(result)[0];
-                // 把数据放入各个文本框
-                uname.value=user.uname;
-                upwd.value=user.upwd;
-                email.value=user.email;
-                phone.value=user.value;
-                user_name.value=user.user_name;
-                // gender.value=user.gender;
-                if(user.gender=="1"){
-                    male.checked=true
-                }else if(user.gender=="0"){
-                    female.checked=true
-                }else{
-                    unknow.checked=true
-                }
-            }
+  </head>
+  <script>
+    function queryUser() {
+      // 获取地址栏中，传递过来的uid
+      // BOM---使用js操作浏览器对象
+      const urlParams = new URLSearchParams(location.search);
+      const _uid = urlParams.get('uid');
+      uid.value = _uid;
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          const result = xhr.responseText;
+          if (result == 0) {
+            alert('Search failed');
+            return;
+          }
+          // 添加下标直接获得JS对象
+          const user = JSON.parse(result)[0];
+          // 把数据放入各个文本框
+          uname.value = user.uname;
+          upwd.value = user.upwd;
+          email.value = user.email;
+          phone.value = user.value;
+          user_name.value = user.user_name;
+          // gender.value=user.gender;
+          if (user.gender == '1') {
+            male.checked = true;
+          } else if (user.gender == '0') {
+            female.checked = true;
+          } else {
+            unknow.checked = true;
+          }
+          let _gender = '1';
+          if ((male.checked = true)) {
+            _gender = '1';
+          }
+          if ((female.checked = true)) {
+            _gender = '0';
+          }
+          if ((unknow.checked = true)) {
+            _gender = 'null';
+          }
         }
-        xhr.open("get","/pro/v1/queryuser/"+_uid, true)
-        xhr.send()
+      };
+      xhr.open('get', '/pro/v1/queryuser/' + _uid, true);
+      xhr.send();
     }
-</script>
-<body onload="queryUser()">
+
+    function updateUser() {
+      // 1. 收集整理数据
+      const _uid = uid.value;
+      const _uname = uname.value;
+      const _upwd = upwd.value;
+      const _phone = phone.value;
+      const _email = email.value;
+      const _user_name = user_name.value;
+      let _gender = null;
+      if (male.checked) {
+        _gender = '1';
+      } else {
+        _gender = '0';
+      }
+      // 2. ajax的xhr4步 --- put方法，有请求主体
+      const xhr = new XMLHttpRequest();
+      console.log('1111');
+      xhr.onreadystatechange = function() {
+        console.log('readyState', xhr.readyState);
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          console.log('222222');
+          const result = xhr.responseText;
+          alert(result);
+        }
+        xhr.open('put', '/pro/v1/updateuser', true);
+        const formdata = `uname=${_uname}&upwd=${_upwd}&email=${_email}&phone=${_phone}&user_name=${_user_name}&gender=${_gender}&uid=${_uid}`;
+        xhr.setRequestHeader(
+          'Content-Type',
+          'application/x-www-form-urlencoded'
+        );
+        xhr.send(formdata);
+      };
+    }
+  </script>
+  <body onload="queryUser()">
     <div>
-        <!-- uid 文本框变成只读，因为uid不允许修改 -->
-        <input type="text" id="uid" readonly> <br>
-        <input type="text" id="uname"> <br>
-        <input type="text" id="upwd"> <br>
-        <input type="text" id="email"> <br>
-        <input type="text" id="phone"> <br>
-        <input type="text" id="user_name"> <br>
-        <!-- <input type="text" id="gender"> <br> -->
-        <input type="radio" id="male" name="gender"><label for="Male">Male</label>
-        <input type="radio" id="Female" name="gender"><label for="Female">Female</label>
-        <input type="radio" id="unknow" name="gender"><label for="N/A">N/A</label>
+      <!-- uid 文本框变成只读，因为uid不允许修改 -->
+      <input type="text" id="uid" readonly /> <br />
+      <input type="text" id="uname" /> <br />
+      <input type="text" id="upwd" /> <br />
+      <input type="text" id="email" /> <br />
+      <input type="text" id="phone" /> <br />
+      <input type="text" id="user_name" /> <br />
+      <!-- <input type="text" id="gender"> <br> -->
+      <input type="radio" id="male" name="gender" /><label for="Male"
+        >Male</label
+      >
+      <input type="radio" id="female" name="gender" /><label for="Female"
+        >Female</label
+      >
+      <input type="radio" id="unknow" name="gender" /><label for="N/A"
+        >N/A</label
+      >
     </div>
     <div>
-        <button>Modify</button>
+      <button onclick="updateUser()">Modify</button>
     </div>
-</body>
+  </body>
 </html>
